@@ -18,13 +18,11 @@ const SignInForm = ({ switchToSignUp, navigateToChat }) => {
 
             const result = await response.json();
             if (result.success) {
-                // Navigue vers le chat en cas de succès
                 navigateToChat();
             } else {
-                alert(result.message || 'Login failed!');
+                alert(result.message);
             }
         } catch (error) {
-            console.error('Erreur lors de la connexion:', error);
             alert('Erreur lors de la connexion.');
         }
     };
@@ -33,7 +31,7 @@ const SignInForm = ({ switchToSignUp, navigateToChat }) => {
         <form className="form_login" onSubmit={handleSubmit}>
             <h1>SIGN IN</h1>
             <label>Username</label>
-            <input type="email" name="username" required />
+            <input type="text" name="username" required />
 
             <label>Password</label>
             <input type="password" name="password" required />
@@ -75,10 +73,9 @@ const SignUpForm = ({ switchToSignIn }) => {
                 alert('Account created successfully!');
                 switchToSignIn();
             } else {
-                alert(result.message || 'Sign Up failed!');
+                alert(result.message);
             }
         } catch (error) {
-            console.error('Erreur lors de la création du compte:', error);
             alert('Erreur lors de la création du compte.');
         }
     };
@@ -87,7 +84,7 @@ const SignUpForm = ({ switchToSignIn }) => {
         <form className="form_login" onSubmit={handleSubmit}>
             <h1>SIGN UP</h1>
             <label>Username</label>
-            <input type="email" name="username" required />
+            <input type="text" name="username" required />
 
             <label>Password</label>
             <input type="password" name="password" required />
@@ -117,15 +114,11 @@ const App = () => {
     return (
         <div>
             {isChatVisible ? (
-                <div>
-                    <h1>Bienvenue dans le chat</h1>
-                </div>
+                <h1>Bienvenue dans le chat</h1>
+            ) : isSignIn ? (
+                <SignInForm switchToSignUp={switchToSignUp} navigateToChat={navigateToChat} />
             ) : (
-                isSignIn ? (
-                    <SignInForm switchToSignUp={switchToSignUp} navigateToChat={navigateToChat} />
-                ) : (
-                    <SignUpForm switchToSignIn={switchToSignIn} />
-                )
+                <SignUpForm switchToSignIn={switchToSignIn} />
             )}
         </div>
     );

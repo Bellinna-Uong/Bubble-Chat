@@ -1,5 +1,5 @@
 <?php
-// login.php
+// signup.php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *'); // Permet les requêtes depuis d'autres origines (CORS)
 header('Access-Control-Allow-Methods: POST');
@@ -28,14 +28,21 @@ if (!$data || !isset($data['username']) || !isset($data['password'])) {
     exit;
 }
 
-// Recherche de l'utilisateur
-$stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
-$stmt->execute([':username' => $data['username']]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+if (strlen($data['password']) < 6) {
+    echo json_encode(['success' => false, 'message' => 'Le mot de passe doit contenir au moins 6 caractères']);
+    exit;
+}
 
-if ($user && password_verify($data['password'], $user['password'])) {
-    echo json_encode(['success' => true, 'message' => 'Connexion réussie']);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Identifiants invalides']);
+// Insertion de l'utilisateur
+try {
+    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+    $stmt = $pdo->prepare('INSERT INTO users (username, password) VALUES (:username, :password)');
+    $stmt->execute([
+        ':username' => $data['username'],
+        ':password' => $hashedPassword
+    ]);
+    echo json_encode(['success' => true, 'message' => 'Inscription réussie']);
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Nom d\'utilisateur déjà utilisé']);
 }
 ?>

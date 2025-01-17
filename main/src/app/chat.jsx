@@ -1,4 +1,4 @@
-import '../style.css'
+import'./chat.css'
 import React, { useState } from 'react';
 import Sidebar from './sidebar.jsx';
 import ChatWindow from './windowchat.jsx';
@@ -12,15 +12,6 @@ const Chat = () => {
         { id: 3, name: "Team C" },
     ];
 
-    const profile = {
-        name: "Bellinna",
-    };
-
-    const members = [
-        { name: "Alice"},
-        { name: "Bob"},
-        { name: "Charlie"},
-    ];
 
     return (
         <div className="app-container">

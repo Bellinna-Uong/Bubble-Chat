@@ -6,7 +6,10 @@ const Sidebar = ({ teams, onTeamSelect }) => {
             <h3>Your channels</h3>
             <ul>
                 {teams.map((team) => (
-                    <li key={team.id} onClick={() => onTeamSelect(team)}>
+                    <li key={team.id} onClick={() => {
+                        console.log("Selected team:", team);
+                        onTeamSelect(team);
+                    }}>
                         {team.name}
                     </li>
                 ))}

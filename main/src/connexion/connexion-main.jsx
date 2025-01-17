@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SignInForm from './signin';
 import SignUpForm from './signup';
 import Chat from '../app/chat';
+import './login.css'
 
 
 const App = () => {

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
-import commands from './commands.jsx';
 
 const ChatWindow = ({ selectedTeam }) => {
     const [socket, setSocket] = useState(null);
@@ -87,21 +85,6 @@ const ChatWindow = ({ selectedTeam }) => {
                             onChange={handleInputChange}
                         />
                         <button onClick={handleSendMessage}>Send</button>
-                        {commandSuggestions.length > 0 && (
-                            <div className="command-suggestions">
-                                <ul>
-                                    {commandSuggestions.map((command, index) => (
-                                        <li
-                                            key={index}
-                                            onClick={() => handleSuggestionClick(command)}
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            {command} - {commands[command]}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
                     </div>
                 </>
             ) : (

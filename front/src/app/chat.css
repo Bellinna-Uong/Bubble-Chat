@@ -3,7 +3,7 @@ h3 {
     margin:0 0 10px 0;
     font-family: "Playwrite AU SA", serif;
     font-size: 1.6rem;
-    color:#5ab6db;
+    color:#EED0A6;
 }
 
 h2 {
@@ -23,10 +23,10 @@ h2 {
 
 .sidebar {
     width: 17%;
-    background-color: #dff2f9;
+    background-color: #E09182;
     padding: 10px;
-    border: 7px solid #5ab6db;
-    color:#9c6956;
+    border: 7px solid #ECE9CA;
+    color:#ECE9CA;
     font-family: "Josefin Sans", serif;
 }
 
@@ -58,8 +58,8 @@ h2 {
     overflow-y: auto;
     margin-bottom: 10px;
     padding: 10px;
-    background: #fce9cb;
-    color:#9c6956;
+    background: #688c80;
+    color:#ece9ca;
     font-size: 1.2rem;
     border-radius: 15px;
     font-family: "PT Serif", serif;

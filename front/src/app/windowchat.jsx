@@ -28,28 +28,62 @@ const ChatWindow = ({ selectedTeam }) => {
     const handleSendMessage = async () => {
         if (input.trim() === "") return;
 
-        try {
-            const response = await fetch('http://localhost/chat_app/sendMessage.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    teamId: selectedTeam.id,
-                    message: input,
-                }),
-            });
+        // Vérifier si le message est une commande
+        if (input.startsWith("/")) {
+            const [command, ...args] = input.slice(1).split(" ");
 
-            if (response.ok) {
-                setInput("");
-                const updatedMessages = await response.json();
-                setMessages(updatedMessages);
-            } else {
-                console.error("Error sending message");
+            try {
+                const response = await fetch('http://localhost/chat_app/commands.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        command,
+                        args,
+                        teamId: selectedTeam.id, // Envoyer l'ID de l'équipe si nécessaire
+                    }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setMessages((prevMessages) => [
+                        ...prevMessages,
+                        { username: "System", text: data.message }, // Affichez la réponse du système
+                    ]);
+                } else {
+                    console.error("Error processing command");
+                }
+            } catch (error) {
+                console.error("Error:", error);
             }
-        } catch (error) {
-            console.error("Error:", error);
+        } else {
+            // Envoyer un message normal
+            try {
+                const response = await fetch('http://localhost/chat_app/sendMessage.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        teamId: selectedTeam.id,
+                        message: input,
+                    }),
+                });
+
+                if (response.ok) {
+                    setInput("");
+                    const updatedMessages = await response.json();
+                    setMessages(updatedMessages);
+                } else {
+                    console.error("Error sending message");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
         }
+
+        setInput(""); // Réinitialiser l'input après envoi
     };
 
     return (
@@ -67,7 +101,7 @@ const ChatWindow = ({ selectedTeam }) => {
                     <div className="message-input">
                         <input
                             type="text"
-                            placeholder="Type a message..."
+                            placeholder="Type a message or command..."
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                         />

@@ -1,4 +1,5 @@
 import React from 'react';
+import fetchApi from '../api';
 
 const SignInForm = ({ switchToSignUp, navigateToChat }) => {
     const handleSubmit = async (e) => {
@@ -9,20 +10,14 @@ const SignInForm = ({ switchToSignUp, navigateToChat }) => {
         const password = formData.get('password');
 
         try {
-            const response = await fetch('http://localhost:8000/api/login.php', {
+            const result = await fetchApi('login.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
             });
 
-            const result = await response.json();
-            if (result.success) {
-                navigateToChat();
-            } else {
-                alert(result.message);
-            }
+            navigateToChat();
         } catch (error) {
-            alert('Erreur lors de la connexion.');
+            alert(error.message);
         }
     };
 

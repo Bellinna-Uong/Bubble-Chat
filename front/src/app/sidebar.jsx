@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import fetchApi from "../api"; // Import de la fonction fetchApi
+import React, { useState } from 'react';
+import fetchApi from '../api'; // Import de la fonction fetchApi
 
-const Sidebar = ({ teams, setTeams, onTeamSelect }) => {
-    const [newTeamName, setNewTeamName] = useState("");
+const Sidebar = ({ teams, onTeamSelect }) => {
+    const [newTeamName, setNewTeamName] = useState('');
 
     const handleCreateTeam = async () => {
         if (newTeamName.trim() === "") {
@@ -21,7 +21,7 @@ const Sidebar = ({ teams, setTeams, onTeamSelect }) => {
 
             if (data.success) {
                 // Mettre à jour les équipes après la création
-                setTeams((prevTeams) => [
+                onTeamSelect((prevTeams) => [
                     ...prevTeams,
                     { id: prevTeams.length + 1, name: newTeamName },
                 ]);

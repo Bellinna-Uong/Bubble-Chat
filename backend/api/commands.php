@@ -81,6 +81,17 @@ switch ($command) {
         echo json_encode(["success" => true, "rooms" => $rooms]);
         break;
 
+    case "user_teams":
+        // Récupérer les équipes de l'utilisateur
+        $userId = $_SESSION['user_id']; // Exemple d'ID utilisateur en session
+        $stmt = $pdo->prepare("SELECT t.id, t.name FROM teams t
+                                   JOIN team_members tm ON tm.team_id = t.id
+                                   WHERE tm.user_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        $teams = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode(["success" => true, "teams" => $teams]);
+        break;
+
     default:
         echo json_encode(["success" => false, "message" => "Commande '$command' inconnue."]);
         break;

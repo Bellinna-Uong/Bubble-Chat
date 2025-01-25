@@ -26,3 +26,23 @@ const fetchApi = async (endpoint, options = {}) => {
 };
 
 export default fetchApi;
+
+const fetchTeams = async () => {
+    try {
+        const data = await fetchApi('teams.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                command: 'user_teams',  // Commande pour récupérer les équipes
+                args: [],
+            }),
+        });
+
+        // Retourner les équipes reçues
+        return data.teams || [];
+    } catch (error) {
+        console.error('Erreur lors de la récupération des équipes:', error.message);
+        throw error; // Propager l'erreur
+    }
+};
+
+export { fetchTeams };
